@@ -1,5 +1,4 @@
 ﻿using Nuke.Common.Git;
-using Nuke.Common.Tools.Git;
 using Nuke.Common.ProjectModel;
 
 sealed partial class Build
@@ -9,7 +8,8 @@ sealed partial class Build
     /// </summary>
     readonly string[] Configurations =
     [
-        "Release*"
+        //"Release*"
+        "Release R25"
     ];
 
     /// <summary>
@@ -63,32 +63,9 @@ sealed partial class Build
     [Parameter] string ReleaseVersion;
 
     /// <summary>
-    ///     The previous release version.
-    /// </summary>
-    /// <remarks>
-    ///     Can be used to compare versions or analyze changes between versions.
-    /// </remarks>
-    string PreviousReleaseVersion => GitTasks.Git("tag -l --sort=v:refname", logInvocation: false, logOutput: false).ToArray() switch
-    {
-        var tags when tags.Length >= 2 => tags[^2].Text,
-        var tags when tags.Length == 0 => throw new InvalidOperationException("The pipeline must be triggered by pushing a new tag"),
-        _ => GitTasks.Git("rev-list --max-parents=0 HEAD", logOutput: false, logInvocation: false).First().Text
-    };
-
-    /// <summary>
     ///     Numeric release version without a stage.
     /// </summary>
     string ReleaseVersionNumber => ReleaseVersion?.Split('-')[0];
-
-    /// <summary>
-    ///     Release stage.
-    /// </summary>
-    /// <example>
-    ///     alpha for 1.0.0-alpha.1.250101<br/>
-    ///     beta for 1.0.0-beta.2.250101 => beta <br/>
-    ///     production for 1.0.0
-    /// </example>
-    string ReleaseStage => IsPrerelease ? ReleaseVersion.Split('-')[1].Split('.')[0] : "production";
 
     /// <summary>
     ///     Determines whether the Revit add-ins release is preview.

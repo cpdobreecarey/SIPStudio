@@ -1,8 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SIPStudio.Abstractions.Services.Application;
+using SIPStudio.Configuration.Http;
 using SIPStudio.Configuration.Logging;
 using SIPStudio.Configuration.Options;
+using SIPStudio.Services.Application;
 using System.IO;
 using System.Reflection;
 
@@ -32,6 +35,12 @@ public static class Host
 
         //Options
         builder.Services.AddApplicationOptions();
+        builder.Services.AddResourceLocationsOptions();
+
+        //Application services
+        builder.Services.AddHttpApiClients();
+        builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
+        builder.Services.AddHostedService<HostBackgroundService>();
 
         _host = builder.Build();
         _host.Start();

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
-using Serilog.Events;
 
 namespace SIPStudio.Configuration.Logging;
 
@@ -21,6 +20,12 @@ namespace SIPStudio.Configuration.Logging;
 /// </example>
 public static class LoggerConfiguration
 {
+    private static readonly string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+        .AppendPath("SIPStudio")
+        .AppendPath(Context.Application.VersionNumber)
+        .AppendPath("Logs")
+        .AppendPath("SIPStudio-log.txt");
+
     private const string LogTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}";
 
     public static void AddSerilogConfiguration(this ILoggingBuilder builder)
@@ -34,8 +39,13 @@ public static class LoggerConfiguration
     private static Logger CreateDefaultLogger()
     {
         return new Serilog.LoggerConfiguration()
-            .WriteTo.Debug(LogEventLevel.Debug, LogTemplate)
-            .MinimumLevel.Debug()
+            //.WriteTo.Debug(LogEventLevel.Debug, LogTemplate)
+            //.MinimumLevel.Debug()
+            .WriteTo.File(LogPath,
+                outputTemplate: LogTemplate,
+                fileSizeLimitBytes: 10000000,
+                rollingInterval: RollingInterval.Day,
+                retainedFileCountLimit: 2)
             .CreateLogger();
     }
 

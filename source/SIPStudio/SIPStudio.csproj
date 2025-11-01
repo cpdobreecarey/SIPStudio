@@ -27,22 +27,32 @@
 
     <ItemGroup>
         <!-- Revit References -->
-        <PackageReference Include="Nice3point.Revit.Build.Tasks"/>
-        <PackageReference Include="Nice3point.Revit.Toolkit"/>
-        <PackageReference Include="Nice3point.Revit.Extensions"/>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPI"/>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI"/>
+        <PackageReference Include="Nice3point.Revit.Build.Tasks" />
+        <PackageReference Include="Nice3point.Revit.Toolkit" />
+        <PackageReference Include="Nice3point.Revit.Extensions" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" />
 
         <!-- IOC -->
-        <PackageReference Include="Microsoft.Extensions.Hosting"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" />
+		<PackageReference Include="Microsoft.Extensions.Http" />
 
         <!-- Logging -->
-        <PackageReference Include="Serilog"/>
-        <PackageReference Include="Serilog.Sinks.Debug"/>
-        <PackageReference Include="Serilog.Extensions.Hosting"/>
+        <PackageReference Include="Serilog" />
+        <PackageReference Include="Serilog.Sinks.Debug" />
+        <PackageReference Include="Serilog.Extensions.Hosting" />
+        <PackageReference Include="Serilog.Sinks.File" />
 
         <!-- Build -->
-        <PackageReference Include="ILRepack" ExcludeAssets="Runtime"/>
+        <PackageReference Include="ILRepack" ExcludeAssets="Runtime" />
+
+		<!-- Utilities -->
+		<PackageReference Include="WixToolset.Dtf.WindowsInstaller" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SIPStudio.Abstractions\SIPStudio.Abstractions.csproj" />
+      <ProjectReference Include="..\SIPStudio.Common\SIPStudio.Common.csproj" />
     </ItemGroup>
     
     <ItemGroup>
