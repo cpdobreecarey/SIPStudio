@@ -19,8 +19,13 @@ public sealed class HostBackgroundService(
     ILogger<HostBackgroundService> logger)
     : IHostedService
 {
+    private readonly string _downloadsFolder = foldersOptions.Value.DownloadsFolder;
+    private readonly Version _currentVersion = assemblyOptions.Value.Version;
+
     public Task StartAsync(CancellationToken cancellationToken)
     {
+        logger.LogInformation("Current Version: {Version}", _currentVersion);
+
         ClearDownloadCache();
         _ = CheckUpdatesAsync();
         return Task.CompletedTask;
@@ -72,17 +77,11 @@ public sealed class HostBackgroundService(
 
     public void ClearDownloadCache()
     {
-        string downloads = foldersOptions.Value.DownloadsFolder;
-        Version currentVersion = assemblyOptions.Value.Version;
+        if (!Directory.Exists(_downloadsFolder)) return;
 
-        //
-        logger.LogInformation("Current Version: {Version}", currentVersion);
-        //
-
-        foreach (string msi in Directory.EnumerateFiles(downloads, "*.msi", SearchOption.TopDirectoryOnly))
+        foreach (string msi in Directory.EnumerateFiles(_downloadsFolder, "*.msi", SearchOption.TopDirectoryOnly))
         {
             Version? msiVersion = null;
-
             using (Database dataBase = new(msi))
             {
                 if (dataBase.ExecuteScalar("SELECT `Value` FROM `Property` WHERE `Property` = 'ProductVersion'")
@@ -91,7 +90,7 @@ public sealed class HostBackgroundService(
                 msiVersion = Version.Parse(version);
             }
 
-            if (msiVersion is null || msiVersion > currentVersion) continue;
+            if (msiVersion is null || msiVersion > _currentVersion) continue;
 
             File.Delete(msi);
             logger.LogInformation("{Msi} installer removed from Downloads", Path.GetFileName(msi));

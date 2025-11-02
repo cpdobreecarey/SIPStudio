@@ -20,7 +20,11 @@
 		<PublishRevitAddin>true</PublishRevitAddin>
 		<IsRepackable Condition="'$(RevitVersion)' &lt; '2026'">true</IsRepackable>
     </PropertyGroup>
-	
+
+	<PropertyGroup Condition="'$(IsRepackable)'=='true'">
+		<RepackBinariesExcludes>$(RepackBinariesExcludes);WixToolset.Dtf.WindowsInstaller.dll</RepackBinariesExcludes>
+	</PropertyGroup>
+
 	<!--<ItemGroup Condition="!$(DefineConstants.Contains('NETCOREAPP'))">
         <Reference Include="System.Net.Http"/>
     </ItemGroup>-->
