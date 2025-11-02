@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <UseWPF>true</UseWPF>
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <Configurations>Debug R21;Debug R22;Debug R23;Debug R24;Debug R25;Debug R26</Configurations>
+        <Configurations>$(Configurations);Release R21;Release R22;Release R23;Release R24;Release R25;Release R26</Configurations>
+    </PropertyGroup>
+
+    <!-- Launch configuration -->
+    <PropertyGroup>
+        <StartAction>Program</StartAction>
+        <StartProgram>C:\Program Files\Autodesk\Revit $(RevitVersion)\Revit.exe</StartProgram>
+        <StartArguments>/language ENG</StartArguments>
+    </PropertyGroup>
+
+    <!-- Build configuration -->
+    <!-- https://github.com/Nice3point/Revit.Build.Tasks -->
+    <PropertyGroup>
+		<PublishRevitAddin>true</PublishRevitAddin>
+		<IsRepackable Condition="'$(RevitVersion)' &lt; '2026'">true</IsRepackable>
+    </PropertyGroup>
+	
+	<!--<ItemGroup Condition="!$(DefineConstants.Contains('NETCOREAPP'))">
+        <Reference Include="System.Net.Http"/>
+    </ItemGroup>-->
+
+    <ItemGroup>
+        <!-- Revit References -->
+        <PackageReference Include="Nice3point.Revit.Build.Tasks" />
+        <PackageReference Include="Nice3point.Revit.Toolkit" />
+        <PackageReference Include="Nice3point.Revit.Extensions" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" />
+
+        <!-- IOC -->
+        <PackageReference Include="Microsoft.Extensions.Hosting" />
+		<PackageReference Include="Microsoft.Extensions.Http" />
+
+        <!-- Logging -->
+        <PackageReference Include="Serilog" />
+        <PackageReference Include="Serilog.Sinks.Debug" />
+        <PackageReference Include="Serilog.Extensions.Hosting" />
+        <PackageReference Include="Serilog.Sinks.File" />
+
+        <!-- Build -->
+        <PackageReference Include="ILRepack" ExcludeAssets="Runtime" />
+
+		<!-- Utilities -->
+		<PackageReference Include="WixToolset.Dtf.WindowsInstaller" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SIPStudio.Abstractions\SIPStudio.Abstractions.csproj" />
+      <ProjectReference Include="..\SIPStudio.Common\SIPStudio.Common.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Resource Include="Resources\Icons\RibbonIcon16.png" />
+        <Resource Include="Resources\Icons\RibbonIcon32.png" />
+    </ItemGroup>
+
+</Project>

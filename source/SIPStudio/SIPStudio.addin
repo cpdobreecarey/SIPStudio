@@ -1,0 +1,15 @@
+﻿<RevitAddIns>
+    <AddIn Type="Application">
+        <Name>SIPStudio</Name>
+        <Assembly>SIPStudio.dll</Assembly>
+        <AddInId>753D11AE-2ECA-4F99-8404-4ADD1BD79C8E</AddInId>
+        <FullClassName>SIPStudio.Application</FullClassName>
+        <VendorId>SIPStudio</VendorId>
+        <VendorDescription></VendorDescription>
+        <VendorEmail></VendorEmail>
+    </AddIn>
+    <ManifestSettings>
+        <UseRevitContext>False</UseRevitContext>
+        <ContextName>SIPStudio</ContextName>
+    </ManifestSettings>
+</RevitAddIns>
