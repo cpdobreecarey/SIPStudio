@@ -40,6 +40,7 @@ public static class Host
         //Application services
         builder.Services.AddHttpApiClients();
         builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
+        builder.Services.AddSingleton<RevitRibbonService>();
         builder.Services.AddHostedService<HostBackgroundService>();
 
         _host = builder.Build();

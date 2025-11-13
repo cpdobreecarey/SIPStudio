@@ -6,6 +6,6 @@ SIPStudio bridges the gap between architectural 2D and 3D designs and production
 
 ## Installation
 
-Download and run the MSI installer for your Revit version from the assets in the latest release.  
+[Download](../../releases) and run the MSI installer for your Revit version from the assets in the latest release.  
 Single-user installation is for one user only and does not require administrator rights.  
 Multi-user installation requires administrator rights and is installed for all users.

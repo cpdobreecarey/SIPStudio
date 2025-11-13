@@ -9,7 +9,7 @@ sealed partial class Build
     readonly string[] Configurations =
     [
         //"Release*"
-        "Release R25"
+        "Release R26"
     ];
 
     /// <summary>
