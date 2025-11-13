@@ -23,7 +23,7 @@ public class Orient3DViewToPlaneCommand : ExternalCommand
             Reference selection = UiDocument.Selection.PickObject(ObjectType.Face, "Select a planar face to orient the view");
             if (Document.GetElement(selection).GetGeometryObjectFromReference(selection) is not PlanarFace selectedFace) return;
 
-            using Transaction transaction = new(Document, "Orient 3D View to Plane");
+            using Transaction transaction = new(Document, "Orient 3D Plane");
             transaction.Start();
             OrientViewToFace(view, selectedFace);
             transaction.Commit();

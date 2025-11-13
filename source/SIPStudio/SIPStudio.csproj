@@ -31,6 +31,7 @@
 
     <ItemGroup>
         <!-- Revit References -->
+        <PackageReference Include="Nice3point.Revit.Api.AdWindows" />
         <PackageReference Include="Nice3point.Revit.Build.Tasks" />
         <PackageReference Include="Nice3point.Revit.Toolkit" />
         <PackageReference Include="Nice3point.Revit.Extensions" />
