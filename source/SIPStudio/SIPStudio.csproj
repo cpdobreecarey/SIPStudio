@@ -25,10 +25,6 @@
 		<RepackBinariesExcludes>$(RepackBinariesExcludes);WixToolset.Dtf.WindowsInstaller.dll</RepackBinariesExcludes>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Content Include="Resources\Textures\OSB.jpg" PublishDirectory="Libraries\Textures" CopyToOutputDirectory="PreserveNewest" />
-	</ItemGroup>
-
 	<!--<ItemGroup Condition="!$(DefineConstants.Contains('NETCOREAPP'))">
         <Reference Include="System.Net.Http"/>
     </ItemGroup>-->

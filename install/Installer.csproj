@@ -7,8 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="WixSharp.bin"/>
-        <PackageReference Include="WixSharp.wix.bin"/>
+      <None Remove="Resources\Textures\OSB.jpg" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Resources\Textures\OSB.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="WixSharp.bin" />
+        <PackageReference Include="WixSharp.wix.bin" />
     </ItemGroup>
 
 </Project>

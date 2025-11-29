@@ -38,6 +38,11 @@ Project project = new()
 
 var wixEntities = Generator.GenerateWixEntities(args, versions.AssemblyVersion);
 
+//
+var baseDir = AppContext.BaseDirectory;
+var osbTexturePath = Path.Combine(baseDir, "Resources", "Textures", "OSB.jpg");
+//
+
 BuildSingleUserMsi();
 BuildMultiUserUserMsi();
 
@@ -57,10 +62,20 @@ void BuildMultiUserUserMsi()
 {
     project.InstallScope = InstallScope.perMachine;
     project.OutFileName = $"{outputName}-{versions.AssemblyVersion}-MultiUser";
+
+    //
+    Dir texturesDir = new(
+        new Id("SIPSTUDIO_APPDATA_" + versions.RevitVersion), versions.RevitVersion.ToString(),
+        new Dir("Libraries", new Dir("Textures", new WixSharp.File(osbTexturePath)))
+    );
+    //
+
     project.Dirs =
     [
         //C:\ProgramData\Autodesk\ApplicationPlugins
-        new InstallDir($@"%CommonAppDataFolder%\Autodesk\ApplicationPlugins", new Dir(bundleName, wixEntities))
+        new InstallDir($@"%CommonAppDataFolder%\Autodesk\ApplicationPlugins", new Dir(bundleName, wixEntities)),
+        //new Dir($@"%AppDataFolder%\SIPStudio\{versions.RevitVersion}\Libraries\Textures", new WixSharp.File(osbTexturePath))
+        new Dir(@"%AppDataFolder%\SIPStudio", texturesDir)
     ];
     project.BuildMsi();
 }
