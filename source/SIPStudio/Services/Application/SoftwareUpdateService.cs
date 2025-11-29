@@ -53,7 +53,7 @@ public sealed class SoftwareUpdateService(
         NewVersion = newVersionTag.ToString(3);
 
         string newVersionFileName = Path.GetFileName(_downloadUrl!);
-        string newVersionPath = Path.Combine(_folderOptions.DownloadsFolder, newVersionFileName);
+        string newVersionPath = Path.Combine(_folderOptions.DownloadsDirectory, newVersionFileName);
         if (File.Exists(newVersionPath))
         {
             LocalFilePath = newVersionPath;
@@ -64,8 +64,8 @@ public sealed class SoftwareUpdateService(
 
     public async Task DownloadUpdate()
     {
-        Directory.CreateDirectory(_folderOptions.DownloadsFolder);
-        string fileName = Path.Combine(_folderOptions.DownloadsFolder, Path.GetFileName(_downloadUrl)!);
+        Directory.CreateDirectory(_folderOptions.DownloadsDirectory);
+        string fileName = Path.Combine(_folderOptions.DownloadsDirectory, Path.GetFileName(_downloadUrl)!);
 
         HttpClient httpClient = httpFactory.CreateClient();
         Stream response = await httpClient.GetStreamAsync(_downloadUrl);

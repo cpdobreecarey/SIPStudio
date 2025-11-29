@@ -2,7 +2,7 @@
 using Serilog;
 using Serilog.Core;
 
-namespace SIPStudio.Configuration.Logging;
+namespace SIPStudio.Configurations.Logging;
 
 /// <summary>
 ///     Application logging configuration
@@ -23,8 +23,7 @@ public static class LoggerConfiguration
     private static readonly string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
         .AppendPath("SIPStudio")
         .AppendPath(Context.Application.VersionNumber)
-        .AppendPath("Logs")
-        .AppendPath("SIPStudio-log.txt");
+        .AppendPath("LogSIPStudio_.txt");
 
     private const string LogTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}";
 

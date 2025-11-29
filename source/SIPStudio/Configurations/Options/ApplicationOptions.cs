@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Versioning;
 
-namespace SIPStudio.Configuration.Options;
+namespace SIPStudio.Configurations.Options;
 
 public static class ApplicationOptions
 {

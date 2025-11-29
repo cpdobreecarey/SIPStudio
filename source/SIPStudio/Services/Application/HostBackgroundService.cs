@@ -19,7 +19,7 @@ public sealed class HostBackgroundService(
     ILogger<HostBackgroundService> logger)
     : IHostedService
 {
-    private readonly string _downloadsFolder = foldersOptions.Value.DownloadsFolder;
+    private readonly string _downloadsDirectory = foldersOptions.Value.DownloadsDirectory;
     private readonly Version _currentVersion = assemblyOptions.Value.Version;
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -77,9 +77,9 @@ public sealed class HostBackgroundService(
 
     public void ClearDownloadCache()
     {
-        if (!Directory.Exists(_downloadsFolder)) return;
+        if (!Directory.Exists(_downloadsDirectory)) return;
 
-        foreach (string msi in Directory.EnumerateFiles(_downloadsFolder, "*.msi", SearchOption.TopDirectoryOnly))
+        foreach (string msi in Directory.EnumerateFiles(_downloadsDirectory, "*.msi", SearchOption.TopDirectoryOnly))
         {
             Version? msiVersion = null;
             using (Database dataBase = new(msi))

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http;
 
-namespace SIPStudio.Configuration.Http;
+namespace SIPStudio.Configurations.Http;
 
 public static class HttpClientConfiguration
 {

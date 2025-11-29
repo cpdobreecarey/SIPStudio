@@ -12,10 +12,5 @@ public sealed partial class ResourceLocationsOptions
     /// <summary>
     ///     Temporary folder for download cache.
     /// </summary>
-    public required string DownloadsFolder { get; set; }
-
-    ///// <summary>
-    /////     Folder where the application writes log files.
-    ///// </summary>
-    //public required string LogsFolder { get; set; }
+    public required string DownloadsDirectory { get; set; }
 }
