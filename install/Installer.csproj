@@ -7,11 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Resources\Textures\OSB.jpg" />
+      <None Remove="Resources\Revit\Templates\R26 Base Template.rte" />
+      <None Remove="Resources\Revit\Textures\OSB.jpg" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="Resources\Textures\OSB.jpg">
+      <Content Include="Resources\Revit\Templates\R26 Base Template.rte">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Resources\Revit\Textures\OSB.jpg">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
@@ -19,6 +23,11 @@
     <ItemGroup>
         <PackageReference Include="WixSharp.bin" />
         <PackageReference Include="WixSharp.wix.bin" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\Revit\Families\Metric\" />
+      <Folder Include="Resources\Revit\Families\Imperial\" />
     </ItemGroup>
 
 </Project>

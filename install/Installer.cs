@@ -15,10 +15,9 @@ Dictionary<int, string> guidMap = new()
 };
 
 Versions versions = Tools.ComputeVersions(args);
+
 if (!guidMap.TryGetValue(versions.RevitVersion, out var guid))
-{
     throw new Exception($"Version GUID mapping missing for the specified version: '{versions.RevitVersion}'");
-}
 
 Project project = new()
 {
@@ -36,46 +35,33 @@ Project project = new()
     }
 };
 
-var wixEntities = Generator.GenerateWixEntities(args, versions.AssemblyVersion);
+var programEntities = Generator.GenerateProgramEntities(args, versions.AssemblyVersion);
+Dir appDataDirectory = ResourceGenerator.GenerateAppDataDirectory(versions.RevitVersion);
 
-//
-var baseDir = AppContext.BaseDirectory;
-var osbTexturePath = Path.Combine(baseDir, "Resources", "Textures", "OSB.jpg");
-//
+BuildSingleUserMsi(appDataDirectory);
+BuildMultiUserMsi(appDataDirectory);
 
-BuildSingleUserMsi();
-BuildMultiUserUserMsi();
-
-void BuildSingleUserMsi()
+void BuildSingleUserMsi(Dir appData)
 {
     project.InstallScope = InstallScope.perUser;
     project.OutFileName = $"{outputName}-{versions.AssemblyVersion}-SingleUser";
-    project.Dirs =
-    [
-        //C:\Users\User\AppData\Roaming\Autodesk\ApplicationPlugins
-        new InstallDir($@"%AppDataFolder%\Autodesk\ApplicationPlugins", new Dir(bundleName, wixEntities))
+    project.Dirs = [
+        new InstallDir(@"%AppDataFolder%", 
+            new Dir(@"Autodesk\ApplicationPlugins", 
+            new Dir(bundleName, programEntities)), 
+            appData
+        )
     ];
     project.BuildMsi();
 }
 
-void BuildMultiUserUserMsi()
+void BuildMultiUserMsi(Dir appData)
 {
     project.InstallScope = InstallScope.perMachine;
     project.OutFileName = $"{outputName}-{versions.AssemblyVersion}-MultiUser";
-
-    //
-    Dir texturesDir = new(
-        new Id("SIPSTUDIO_APPDATA_" + versions.RevitVersion), versions.RevitVersion.ToString(),
-        new Dir("Libraries", new Dir("Textures", new WixSharp.File(osbTexturePath)))
-    );
-    //
-
-    project.Dirs =
-    [
-        //C:\ProgramData\Autodesk\ApplicationPlugins
-        new InstallDir($@"%CommonAppDataFolder%\Autodesk\ApplicationPlugins", new Dir(bundleName, wixEntities)),
-        //new Dir($@"%AppDataFolder%\SIPStudio\{versions.RevitVersion}\Libraries\Textures", new WixSharp.File(osbTexturePath))
-        new Dir(@"%AppDataFolder%\SIPStudio", texturesDir)
+    project.Dirs = [
+        new InstallDir(@"%CommonAppDataFolder%\Autodesk\ApplicationPlugins", new Dir(bundleName, programEntities)),
+        new Dir(@"%AppDataFolder%", appData)
     ];
     project.BuildMsi();
 }

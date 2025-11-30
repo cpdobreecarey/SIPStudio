@@ -8,7 +8,7 @@ public static class Generator
     /// <summary>
     ///     Generates Wix entities for the installer from existing bundle structure.
     /// </summary>
-    public static WixEntity[] GenerateWixEntities(IEnumerable<string> args, Version version)
+    public static WixEntity[] GenerateProgramEntities(IEnumerable<string> args, Version version)
     {
         List<WixEntity> entities = [];
         foreach (string directory in args)
