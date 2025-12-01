@@ -1,4 +1,5 @@
 ﻿using Installer;
+using Installer.Resources;
 using WixSharp;
 
 const string outputName = "SIPStudio";
@@ -31,37 +32,19 @@ Project project = new()
     ControlPanelInfo =
     {
         Manufacturer = outputName,
-        ProductIcon = @"install\Resources\Icons\ShellIcon.ico"
+        ProductIcon = Resources.ShellIcon
     }
 };
 
 var programEntities = Generator.GenerateProgramEntities(args, versions.AssemblyVersion);
 Dir appDataDirectory = ResourceGenerator.GenerateAppDataDirectory(versions.RevitVersion);
 
-BuildSingleUserMsi(appDataDirectory);
-BuildMultiUserMsi(appDataDirectory);
+BuildMsiPackage(appDataDirectory);
 
-void BuildSingleUserMsi(Dir appData)
-{
-    project.InstallScope = InstallScope.perUser;
-    project.OutFileName = $"{outputName}-{versions.AssemblyVersion}-SingleUser";
-    project.Dirs = [
-        new InstallDir(@"%AppDataFolder%", 
-            new Dir(@"Autodesk\ApplicationPlugins", 
-            new Dir(bundleName, programEntities)), 
-            appData
-        )
-    ];
-    project.BuildMsi();
-}
-
-void BuildMultiUserMsi(Dir appData)
+void BuildMsiPackage(params Dir[] directories)
 {
     project.InstallScope = InstallScope.perMachine;
-    project.OutFileName = $"{outputName}-{versions.AssemblyVersion}-MultiUser";
-    project.Dirs = [
-        new InstallDir(@"%CommonAppDataFolder%\Autodesk\ApplicationPlugins", new Dir(bundleName, programEntities)),
-        new Dir(@"%AppDataFolder%", appData)
-    ];
+    project.OutFileName = $"{outputName}-{versions.AssemblyVersion}";
+    project.Dirs = [new InstallDir(@"%CommonAppDataFolder%\Autodesk\ApplicationPlugins", new Dir(bundleName, programEntities)), .. directories];
     project.BuildMsi();
 }

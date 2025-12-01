@@ -7,26 +7,27 @@ public static class ResourceGenerator
 {
     public static Dir GenerateAppDataDirectory(int version)
     {
-        string revitResourcesPath = Path.Combine(AppContext.BaseDirectory, "Resources", "Revit");
-        //string imperialFamiliesPath = Path.Combine(revitResourcesPath, "Families", "Imperial");
-        //string metricFamiliesPath = Path.Combine(revitResourcesPath, "Families", "Metric");
-        string templatesPath = Path.Combine(revitResourcesPath, "Templates");
-        string texturesPath = Path.Combine(revitResourcesPath, "Textures");
+        return new Dir(new Id($"SIPSTUDIO_APPDATA_{version}"), $@"%AppDataFolder%\SIPStudio\{version}", 
+            CreateLibrariesDirectory()
+        );
+    }
 
-        //WixEntity[] imperialfamilyEntities = GenerateWixFileEntities(imperialFamiliesPath);
-        //WixEntity[] metricfamilyEntities = GenerateWixFileEntities(metricFamiliesPath);
-        WixEntity[] templateEntities = GenerateWixFileEntities(templatesPath);
-        WixEntity[] textureEntities = GenerateWixFileEntities(texturesPath);
-
+    private static Dir CreateLibrariesDirectory()
+    {
         Dir librariesDir = new("Libraries");
+
+        WixEntity[] templateEntities = GenerateWixFileEntities(Resources.Resources.TemplatesDirectory);
+        WixEntity[] textureEntities = GenerateWixFileEntities(Resources.Resources.TexturesDirectory);
+
+        librariesDir.AddDir(new Dir("Families", new Dir("Imperial"), new Dir("Metric")));
         librariesDir.AddFiles([.. templateEntities.OfType<WixSharp.File>()]);
         librariesDir.AddDir(new Dir("Textures", textureEntities));
 
-        return new Dir(new Id($"SIPSTUDIO_APPDATA_{version}"), $@"SIPStudio\{version}", librariesDir);
+        return librariesDir;
     }
 
-    private static WixEntity[] GenerateWixFileEntities(string path) => [
-        .. Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly)
+    private static WixEntity[] GenerateWixFileEntities(string path, string searchPatern = "*.*") => [
+        .. Directory.GetFiles(path, searchPatern, SearchOption.TopDirectoryOnly)
                     .Select(p => new WixSharp.File(p))
     ];
 }
