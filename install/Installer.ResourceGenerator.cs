@@ -19,7 +19,8 @@ public static class ResourceGenerator
         WixEntity[] templateEntities = GenerateWixFileEntities(Resources.Resources.TemplatesDirectory);
         WixEntity[] textureEntities = GenerateWixFileEntities(Resources.Resources.TexturesDirectory);
 
-        librariesDir.AddDir(new Dir("Families", new Dir("Imperial"), new Dir("Metric")));
+        librariesDir.AddDir(new Dir("Imperial"));
+        librariesDir.AddDir(new Dir("Metric"));
         librariesDir.AddFiles([.. templateEntities.OfType<WixSharp.File>()]);
         librariesDir.AddDir(new Dir("Textures", textureEntities));
 

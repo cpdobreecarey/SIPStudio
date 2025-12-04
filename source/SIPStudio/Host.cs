@@ -6,6 +6,7 @@ using SIPStudio.Configurations.Http;
 using SIPStudio.Configurations.Logging;
 using SIPStudio.Configurations.Options;
 using SIPStudio.Services.Application;
+using SIPStudio.Services.Configuration;
 using System.IO;
 using System.Reflection;
 
@@ -42,6 +43,9 @@ public static class Host
         builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
         builder.Services.AddSingleton<RevitRibbonService>();
         builder.Services.AddHostedService<HostBackgroundService>();
+
+        //Configuration services
+        builder.Services.AddSingleton<RevitTemplateService>();
 
         _host = builder.Build();
         _host.Start();

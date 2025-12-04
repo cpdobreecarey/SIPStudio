@@ -10,15 +10,13 @@
 /// </remarks>
 public sealed partial class ResourceLocationsOptions
 {
-    public required string ConfigurationsDirectory { get; set; }
-
-    public required string ConfigurationFilePath { get; set; }
-
     public required string LibrariesDirectory { get; set; }
+    public required string DefaultTemplateFileName { get; set; }
+    public required string DefaultTemplatePath { get; set; }
 
-    public required string MaterialTexturesDirectory { get; set; }
-
-    public required string ImperialFamiliesDirectory { get; set; }
-    
-    public required string MetricFamiliesDirectory { get; set; }
+    //public required string ConfigurationsDirectory { get; set; }
+    //public required string ConfigurationFilePath { get; set; }
+    //public required string MaterialTexturesDirectory { get; set; }
+    //public required string ImperialFamiliesDirectory { get; set; }
+    //public required string MetricFamiliesDirectory { get; set; }
 }

@@ -14,12 +14,12 @@ namespace SIPStudio.Services.Application;
 /// </summary>
 public sealed class HostBackgroundService(
     IOptions<AssemblyOptions> assemblyOptions,
-    IOptions<ResourceLocationsOptions> foldersOptions,
+    IOptions<ResourceLocationsOptions> resourceOptions,
     ISoftwareUpdateService updateService,
     ILogger<HostBackgroundService> logger)
     : IHostedService
 {
-    private readonly string _downloadsDirectory = foldersOptions.Value.DownloadsDirectory;
+    private readonly string _downloadsDirectory = resourceOptions.Value.DownloadsDirectory;
     private readonly Version _currentVersion = assemblyOptions.Value.Version;
 
     public Task StartAsync(CancellationToken cancellationToken)
