@@ -14,9 +14,9 @@ public sealed class RevitRibbonService
     {
         UIControlledApplication application = Context.UiControlledApplication;
 
-        #region Beta Panel
-        RibbonPanel betaPanel = application.CreatePanel("Beta", SipTabName);
-        betaPanel.AddPushButton<DWGLinkCommand>(DWGLinkCommand.Name)
+        #region Documentation Panel
+        RibbonPanel documentationPanel = application.CreatePanel("Smart Documentation", SipTabName);
+        documentationPanel.AddPushButton<DWGLinkCommand>(DWGLinkCommand.Name)
             .SetImage("/SIPStudio;component/Resources/Icons/RibbonIcon16.png")
             .SetLargeImage("/SIPStudio;component/Resources/Icons/RibbonIcon32.png");
         #endregion

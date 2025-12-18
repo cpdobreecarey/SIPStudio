@@ -71,7 +71,18 @@ sealed partial class Build
     /// <summary>
     ///     Determines whether the Revit add-ins release is preview.
     /// </summary>
-    bool IsPrerelease => ReleaseVersion != ReleaseVersionNumber;
+    bool IsPrerelease
+    {
+        get
+        {
+            string env = Environment.GetEnvironmentVariable("IS_PRERELEASE");
+
+            if (bool.TryParse(env, out bool fromEnvironment))
+                return fromEnvironment;
+
+            return ReleaseVersion != ReleaseVersionNumber;
+        }
+    }
 
     /// <summary>
     ///     Git repository metadata.

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using SIPStudio.Abstractions.Options;
 using SIPStudio.Abstractions.Services.Application;
 using SIPStudio.Common.Tools;
+using SIPStudio.Services.Configuration;
 using System.IO;
 using WixToolset.Dtf.WindowsInstaller;
 
@@ -15,12 +16,15 @@ namespace SIPStudio.Services.Application;
 public sealed class HostBackgroundService(
     IOptions<AssemblyOptions> assemblyOptions,
     IOptions<ResourceLocationsOptions> resourceOptions,
+    IOptions<RevitEnvironmentOptions> revitOptions,
     ISoftwareUpdateService updateService,
+    RevitTemplateService templateService,
     ILogger<HostBackgroundService> logger)
     : IHostedService
 {
     private readonly string _downloadsDirectory = resourceOptions.Value.DownloadsDirectory;
     private readonly Version _currentVersion = assemblyOptions.Value.Version;
+    private readonly string _revitIniPath = revitOptions.Value.UserConfigurationFilePath;
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
@@ -33,6 +37,7 @@ public sealed class HostBackgroundService(
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
+        templateService.RegisterDefaultTemplate(_revitIniPath);
         UpdateSoftware();
         return Task.CompletedTask;
     }

@@ -10,7 +10,7 @@ namespace SIPStudio.Commands;
 [Transaction(TransactionMode.Manual)]
 public class Orient3DViewToPlaneCommand : ExternalCommand
 {
-    public const string Name = "Orient 3D View To Plane";
+    public const string Name = "Orient 3D View to Plane";
 
     public override void Execute()
     {

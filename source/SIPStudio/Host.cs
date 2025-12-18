@@ -37,6 +37,7 @@ public static class Host
         //Options
         builder.Services.AddApplicationOptions();
         builder.Services.AddResourceLocationsOptions();
+        builder.Services.AddRevitEnvironmentOptions();
 
         //Application services
         builder.Services.AddHttpApiClients();
